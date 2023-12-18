@@ -1,0 +1,26 @@
+load("@gazelle//:def.bzl", "gazelle")  #
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+
+# gazelle:exclude bazel-*
+# gazelle:exclude binding
+# gazelle:exclude deployment
+# gazelle:exclude dist
+# gazelle:exclude security
+# gazelle:exclude vendor
+gazelle(name = "gazelle")
+
+# make sure that others can import either using the import or go_default_library naming conventions
+# gazelle:go_naming_convention import_alias
+
+buildifier(
+    name = "buildifier.check",
+    exclude_patterns = [
+        "./bazel-*",
+        "./git/*",
+        "./vendor/*",
+    ],
+    lint_mode = "warn",
+    lint_warnings = ["all"],
+    mode = "check",
+    verbose = True,
+)

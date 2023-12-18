@@ -1,0 +1,24 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+package(default_visibility = ["//visibility:public"])
+
+go_library(
+    name = "client_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/abitofhelp/apis/client",
+    deps = [
+        "//proto/hello_world:hello_world_go_proto",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":client_lib",
+)
+
+go_binary(
+    name = "greeter_client",
+    embed = [":client_lib"],
+)
