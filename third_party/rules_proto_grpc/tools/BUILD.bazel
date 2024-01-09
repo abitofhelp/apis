@@ -1,9 +1,0 @@
-load("@buildifier_prebuilt//:rules.bzl", "buildifier")
-
-buildifier(
-    name = "buildifier",
-    lint_mode = "warn",
-    lint_warnings = [],
-    mode = "fix",
-    visibility = ["//visibility:public"],
-)

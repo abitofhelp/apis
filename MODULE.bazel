@@ -77,24 +77,24 @@ local_path_override(
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 
 ## You can register multiple Go SDKs and select which one to use on a per-target basis using go_cross_binary.
-#go_sdk.download(version = "1.21.5")
-go_sdk.download(
-    goarch = "amd64",
-    goos = "linux",
-    version = "1.21.5",
-)
-
-go_sdk.download(
-    goarch = "amd64",
-    goos = "darwin",
-    version = "1.21.5",
-)
-
-go_sdk.download(
-    goarch = "arm64",
-    goos = "darwin",
-    version = "1.21.5",
-)
+go_sdk.download(version = "1.21.5")
+#go_sdk.download(
+#    goarch = "amd64",
+#    goos = "linux",
+#    version = "1.21.5",
+#)
+#
+#go_sdk.download(
+#    goarch = "amd64",
+#    goos = "darwin",
+#    version = "1.21.5",
+#)
+#
+#go_sdk.download(
+#    goarch = "arm64",
+#    goos = "darwin",
+#    version = "1.21.5",
+#)
 
 # Register the Go SDK installed on the host.
 go_sdk.host()
