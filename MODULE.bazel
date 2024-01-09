@@ -1,0 +1,116 @@
+module(
+    name = "apis",
+    version = "1.0.0",
+    compatibility_level = 1,
+)
+
+bazel_dep(
+    name = "buildifier_prebuilt",
+    version = "6.4.0",
+    dev_dependency = True,
+)
+
+bazel_dep(
+    name = "grpc",
+    version = "1.48.1",
+    dev_dependency = True,
+)
+
+bazel_dep(
+    name = "protobuf",
+    version = "23.1",
+    dev_dependency = True,
+    repo_name = "com_google_protobuf",
+)
+
+bazel_dep(
+    name = "rules_go",
+    version = "0.44.2",
+    dev_dependency = True,
+)
+
+bazel_dep(
+    name = "rules_proto_grpc",
+    version = "5.0.0-alpha2",
+)
+
+bazel_dep(
+    name = "rules_proto_grpc_grpc_gateway",
+    version = "5.0.0-alpha2",
+)
+
+bazel_dep(
+    name = "rules_proto_grpc_go",
+    version = "5.0.0-alpha2",
+)
+
+go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
+
+## You can register multiple Go SDKs and select which one to use on a per-target basis using go_cross_binary.
+#go_sdk.download(version = "1.21.5")
+go_sdk.download(
+    goarch = "amd64",
+    goos = "linux",
+    version = "1.21.5",
+)
+
+go_sdk.download(
+    goarch = "amd64",
+    goos = "darwin",
+    version = "1.21.5",
+)
+
+go_sdk.download(
+    goarch = "arm64",
+    goos = "darwin",
+    version = "1.21.5",
+)
+
+# Register the Go SDK installed on the host.
+go_sdk.host()
+
+bazel_dep(
+    name = "gazelle",
+    version = "0.34.0",
+    dev_dependency = True,
+)
+
+go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
+
+go_deps.from_file(go_mod = "//:go.mod")
+
+use_repo(
+    go_deps,
+    "com_github_grpc_ecosystem_grpc_gateway_v2",
+    "org_golang_google_genproto_googleapis_api",
+    "org_golang_google_grpc",
+    "org_golang_google_protobuf",
+    "org_uber_go_zap",
+)
+
+GOOGLE_APIS_VERSION = "64926d52febbf298cb82a8f472ade4a3969ba922"
+
+bazel_dep(
+    name = "com_google_googleapis",
+    version = GOOGLE_APIS_VERSION,
+    repo_name = "googleapis",
+)
+
+archive_override(
+    module_name = "com_google_googleapis",
+    integrity = "sha256-nRqTDnZ8k8glOYuPhpLso/41O5qq3t+88fyiKCyF34g=",
+    patch_strip = 1,
+    patches = [
+        "scripts/bazel/add_bzlmod_support.patch",  # https://github.com/googleapis/googleapis/pull/855
+    ],
+    strip_prefix = "googleapis-" + GOOGLE_APIS_VERSION,
+    urls = [
+        "https://github.com/googleapis/googleapis/archive/%s.zip" % GOOGLE_APIS_VERSION,
+    ],
+)
+
+switched_rules = use_extension("@googleapis//:extensions.bzl", "switched_rules")
+
+switched_rules.use_languages()
+
+use_repo(switched_rules, "com_google_googleapis_imports")

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package v5;
+// go_package = {GO-MODULE}/{GO-PACKAGE}
+// GO-PACKAGE = {PROTO_PATH}/{PROTO-PACKAGE} (but it need not be).
+option go_package = "github.com/abitofhelp/apis/proto/enum/access_tier/v5";
+
+enum AccessTier {
+  ACCESS_TIER_UNSPECIFIED = 0;
+  ACCESS_TIER_ARCHIVE = 1;
+  ACCESS_TIER_COOL = 2;
+  ACCESS_TIER_HOT = 3;
+}

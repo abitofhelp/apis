@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package v1;
+// go_package = {GO-MODULE}/{GO-PACKAGE}
+// GO-PACKAGE = {PROTO_PATH}/{PROTO-PACKAGE} (but it need not be).
+option go_package = "github.com/abitofhelp/apis/proto/hello_world/v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "proto/enum/access_tier/v5/access_tier.proto";
+
+// The greeting service definition
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloResponse) {
+    option (google.api.http) = {
+      post : "/v1/hello"
+      body: "*"
+    };
+  }
+}
+
+message Person {
+  string name = 1;
+  v5.AccessTier tier = 2;
+  google.protobuf.Timestamp utc = 3;
+}
+
+// The request message containing the user's name
+message HelloRequest {
+  string name = 1;
+  google.protobuf.Timestamp sent_utc = 2;
+}
+
+// The response message containing the greetings
+message HelloResponse {
+  string message = 1;
+  google.protobuf.Timestamp message_arrived_utc = 2;
+  google.protobuf.Timestamp replied_utc = 3;
+}
