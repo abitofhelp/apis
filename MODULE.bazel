@@ -29,19 +29,49 @@ bazel_dep(
     dev_dependency = True,
 )
 
+#bazel_dep(
+#    name = "rules_proto_grpc",
+#    version = "5.0.0-alpha2",
+#)
+#
+#bazel_dep(
+#    name = "rules_proto_grpc_grpc_gateway",
+#    version = "5.0.0-alpha2",
+#)
+#
+#bazel_dep(
+#    name = "rules_proto_grpc_go",
+#    version = "5.0.0-alpha2",
+#)
+
 bazel_dep(
     name = "rules_proto_grpc",
-    version = "5.0.0-alpha2",
+    version = "0.0.0.rpg.version.placeholder",
+)
+
+local_path_override(
+    module_name = "rules_proto_grpc",
+    path = "third_party/rules_proto_grpc/modules/core",
 )
 
 bazel_dep(
     name = "rules_proto_grpc_grpc_gateway",
-    version = "5.0.0-alpha2",
+    version = "0.0.0.rpg.version.placeholder",
+)
+
+local_path_override(
+    module_name = "rules_proto_grpc_grpc_gateway",
+    path = "third_party/rules_proto_grpc/modules/grpc_gateway",
 )
 
 bazel_dep(
     name = "rules_proto_grpc_go",
-    version = "5.0.0-alpha2",
+    version = "0.0.0.rpg.version.placeholder",
+)
+
+local_path_override(
+    module_name = "rules_proto_grpc_go",
+    path = "third_party/rules_proto_grpc/modules/go",
 )
 
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
